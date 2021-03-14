@@ -1,0 +1,20 @@
+# VS code文件
+.vscode/
+# !.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+# !.vscode/extensions.json
+
+# 编译生成的二进制文件
+bin/
+
+build/
+
+# 打包的zip压缩包
+CodeCraft-2021.zip
+
+# 数据样例
+samplein.txt
+sampleout.txt
+training-1.txt
+training-2.txt
