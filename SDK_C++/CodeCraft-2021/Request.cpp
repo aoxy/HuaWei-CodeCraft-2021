@@ -1,5 +1,5 @@
 #include "Request.h"
-#include "util.h"
+#include "Util.h"
 
 std::ostream &operator<<(std::ostream &os, const Request &r)
 {

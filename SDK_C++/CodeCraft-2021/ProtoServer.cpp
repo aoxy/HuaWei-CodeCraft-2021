@@ -1,8 +1,8 @@
 #include <sstream>
-#include "Server.h"
-#include "util.h"
+#include "ProtoServer.h"
+#include "Util.h"
 
-std::ostream &operator<<(std::ostream &os, const Server &s)
+std::ostream &operator<<(std::ostream &os, const ProtoServer &s)
 {
     os << "(" << std::endl;
     os << "\t" << s.model << std::endl;
@@ -14,7 +14,7 @@ std::ostream &operator<<(std::ostream &os, const Server &s)
     return os;
 }
 
-std::istream &operator>>(std::istream &is, Server &s)
+std::istream &operator>>(std::istream &is, ProtoServer &s)
 {
     std::string line;
     std::getline(is, line);

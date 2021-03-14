@@ -1,7 +1,7 @@
-#include "VirtualMachine.h"
-#include "util.h"
+#include "ProtoVM.h"
+#include "Util.h"
 
-std::ostream &operator<<(std::ostream &os, const VirtualMachine &m)
+std::ostream &operator<<(std::ostream &os, const ProtoVM &m)
 {
     os << "(" << std::endl;
     os << "\t" << m.model << std::endl;
@@ -12,7 +12,7 @@ std::ostream &operator<<(std::ostream &os, const VirtualMachine &m)
     return os;
 }
 
-std::istream &operator>>(std::istream &is, VirtualMachine &m)
+std::istream &operator>>(std::istream &is, ProtoVM &m)
 {
     std::string line;
     std::getline(is, line);

@@ -1,5 +1,5 @@
-#ifndef SERVER_H_
-#define SERVER_H_
+#ifndef PROTO_SERVER_H_
+#define PROTO_SERVER_H_
 
 #include <iostream>
 #include <string>
@@ -12,7 +12,7 @@
  * 每台服务器的CPU核数以及内存大小不超过1024，硬件成本不超过 5×105，每日能耗成本不超过5000。
  * 服务器型号长度不超过 20，仅由数字和大小写英文字符构成。
  */
-class Server
+class ProtoServer
 {
 private:
     std::string model;
@@ -22,11 +22,11 @@ private:
     int cost;
 
 public:
-    Server() {}
-    Server(std::string model, int core, int ram, int price, int cost)
+    ProtoServer() {}
+    ProtoServer(std::string model, int core, int ram, int price, int cost)
         : model(model), core(core), ram(ram), price(price), cost(cost) {}
-    friend std::ostream &operator<<(std::ostream &os, const Server &s);
-    friend std::istream &operator>>(std::istream &is, Server &s);
+    friend std::ostream &operator<<(std::ostream &os, const ProtoServer &s);
+    friend std::istream &operator>>(std::istream &is, ProtoServer &s);
 };
 
 #endif

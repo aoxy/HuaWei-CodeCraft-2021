@@ -1,5 +1,5 @@
-#ifndef VIRTUALMACHINE_H_
-#define VIRTUALMACHINE_H_
+#ifndef PROTO_VM_H_
+#define PROTO_VM_H_
 
 #include <iostream>
 #include <string>
@@ -12,7 +12,7 @@
  * CPU核数，内存大小均为正整数。对于每种类型的虚拟机，数据集保证至少存在一种服务器可以容纳。
  * 虚拟机型号长度不超过20，仅由数字，大小写英文字符和'.'构成。
  */
-class VirtualMachine
+class ProtoVM
 {
 private:
     std::string model;
@@ -21,11 +21,11 @@ private:
     int node;
 
 public:
-    VirtualMachine() {}
-    VirtualMachine(std::string model, int core, int ram, int node)
+    ProtoVM() {}
+    ProtoVM(std::string model, int core, int ram, int node)
         : model(model), core(core), ram(ram), node(node) {}
-    friend std::ostream &operator<<(std::ostream &os, const VirtualMachine &m);
-    friend std::istream &operator>>(std::istream &is, VirtualMachine &m);
+    friend std::ostream &operator<<(std::ostream &os, const ProtoVM &m);
+    friend std::istream &operator>>(std::istream &is, ProtoVM &m);
 };
 
 #endif

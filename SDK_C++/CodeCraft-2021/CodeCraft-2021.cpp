@@ -1,9 +1,9 @@
 #include <iostream>
 #include <vector>
-#include "Server.h"
-#include "VirtualMachine.h"
+#include "ProtoServer.h"
+#include "ProtoVM.h"
 #include "Request.h"
-#include "util.h"
+#include "Util.h"
 using std::cin;
 using std::cout;
 using std::endl;
@@ -11,22 +11,19 @@ using std::vector;
 int main()
 {
 	// TODO:read standard input
-	// TODO:process
-	// TODO:write standard output
-	// TODO:fflush(stdout);
 	int N; //整数N(1≤N≤100)，表示可以采购的服务器类型数量
 	int M; //整数M(1≤M≤1000)，表示售卖的虚拟机类型数量
 	int T; //整数T(1≤T≤1000)，表示题目共会给出 T天的用户请求序列数据
 	cin >> N;
 	cin.get();
-	vector<Server> servers(N);
+	vector<ProtoServer> servers(N);
 	for (int i = 0; i < N; i++)
 	{
 		cin >> servers[i];
 	}
 	cin >> M;
 	cin.get();
-	vector<VirtualMachine> vms(M);
+	vector<ProtoVM> vms(M);
 	for (int i = 0; i < M; i++)
 	{
 		cin >> vms[i];
@@ -45,5 +42,9 @@ int main()
 			cin >> opseq[i][j];
 		}
 	}
+
+	// TODO:process
+	// TODO:write standard output
+	// TODO:fflush(stdout);
 	return 0;
 }
