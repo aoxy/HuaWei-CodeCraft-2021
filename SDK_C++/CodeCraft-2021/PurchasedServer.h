@@ -16,7 +16,7 @@
  */
 class PurchasedServer
 {
-private:
+public:
     struct Server
     {
         ProtoServer &pserver;
@@ -34,6 +34,7 @@ private:
             if (pvm.node() == 0)
             {
                 if (pvm.core()) //TODO: 单节点部署
+                    return false;
             }
             else
             {
@@ -49,24 +50,13 @@ private:
                 else
                     return false;
             }
+            return true;
         }
     };
     void purchase(ProtoServer ps) {}
-    std::vector<Server> servers;
-    int _core;
-    int _ram;
-    int _node;
 
 public:
-    ProtoVM() {}
-    ProtoVM(std::string model, int core, int ram, int node)
-        : _model(model), _core(core), _ram(ram), _node(node) {}
-    friend std::ostream &operator<<(std::ostream &os, const ProtoVM &m);
-    friend std::istream &operator>>(std::istream &is, ProtoVM &m);
-    std::string model() const { return _model; }
-    int core() const { return _core; }
-    int ram() const { return _ram; }
-    int node() const { return _node; }
+    PurchasedServer() {}
 };
 
 #endif

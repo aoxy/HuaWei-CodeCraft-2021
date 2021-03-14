@@ -4,9 +4,9 @@
 std::ostream &operator<<(std::ostream &os, const Request &r)
 {
     os << "[Request](" << std::endl;
-    os << "\t" << r.optype << std::endl;
-    os << "\t" << r.model << std::endl;
-    os << "\t" << r.id << std::endl;
+    os << "\t" << r._optype << std::endl;
+    os << "\t" << r._model << std::endl;
+    os << "\t" << r._id << std::endl;
     os << ")" << std::endl;
     return os;
 }
@@ -16,14 +16,14 @@ std::istream &operator>>(std::istream &is, Request &r)
     std::string line;
     std::getline(is, line);
     std::istringstream in = strin(line);
-    in >> r.optype;
-    if (r.optype == "add")
+    in >> r._optype;
+    if (r._optype == "add")
     {
-        in >> r.model >> r.id;
+        in >> r._model >> r._id;
     }
     else
     {
-        in >> r.id;
+        in >> r._id;
     }
     return is;
 }

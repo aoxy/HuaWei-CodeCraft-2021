@@ -42,16 +42,47 @@ int main()
 			cin >> requests[i][j];
 	}
 
-	// TODO:process
+	// TODO:process 现在是为每一个虚拟机单独购买一台最大的服务器
 	ProtoServer &maxServer = ServerType[0];
 	for (int i = 1; i < N; i++)
 		if (ServerType[i].core() > maxServer.core() && ServerType[i].ram() > maxServer.ram())
 			maxServer = ServerType[i];
-	
+	vector<int> addCount(T);
 	for (int i = 0; i < T; i++)
 	{
+		addCount[i] = 0;
 		for (int j = 0; j < R[i]; j++)
-			cin >> requests[i][j];
+		{
+			if (requests[i][j].optype() == "add")
+			{
+				addCount[i]++;
+			}
+		}
+	}
+	int serverId = 0;
+	for (int i = 0; i < T; i++)
+	{
+		cout << "(purchase, 1)" << endl;
+		cout << "(" << maxServer.model() << ", " << addCount[i] << ")" << endl;
+		cout << "(migration, 0)" << endl;
+		for (int j = 0; j < R[i]; j++)
+		{
+			if (requests[i][j].optype() == "add")
+			{
+
+				int k;
+				for (k = 0; k < M; k++)
+				{
+					if (VMType[k].model() == requests[i][j].model())
+						break;
+				}
+				if (VMType[k].node() == 0)
+					cout << "(" << serverId << ", A)" << endl;
+				else
+					cout << "(" << serverId << ")" << endl;
+				serverId++;
+			}
+		}
 	}
 	// TODO:write standard output
 	// TODO:fflush(stdout);
