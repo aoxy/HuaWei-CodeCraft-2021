@@ -3,7 +3,7 @@
 
 std::ostream &operator<<(std::ostream &os, const Request &r)
 {
-    os << "(" << std::endl;
+    os << "[Request](" << std::endl;
     os << "\t" << r.optype << std::endl;
     os << "\t" << r.model << std::endl;
     os << "\t" << r.id << std::endl;

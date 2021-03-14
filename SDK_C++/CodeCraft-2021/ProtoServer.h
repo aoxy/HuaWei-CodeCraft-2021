@@ -15,18 +15,23 @@
 class ProtoServer
 {
 private:
-    std::string model;
-    int core;
-    int ram;
-    int price;
-    int cost;
+    std::string _model;
+    int _core;
+    int _ram;
+    int _price;
+    int _cost;
 
 public:
     ProtoServer() {}
     ProtoServer(std::string model, int core, int ram, int price, int cost)
-        : model(model), core(core), ram(ram), price(price), cost(cost) {}
+        : _model(model), _core(core), _ram(ram), _price(price), _cost(cost) {}
     friend std::ostream &operator<<(std::ostream &os, const ProtoServer &s);
     friend std::istream &operator>>(std::istream &is, ProtoServer &s);
+    std::string model() const { return _model; }
+    int core() const { return _core; }
+    int ram() const { return _ram; }
+    int price() const { return _price; }
+    int cost() const { return _cost; }
 };
 
 #endif

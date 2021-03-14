@@ -15,17 +15,21 @@
 class ProtoVM
 {
 private:
-    std::string model;
-    int core;
-    int ram;
-    int node;
+    std::string _model;
+    int _core;
+    int _ram;
+    int _node;
 
 public:
     ProtoVM() {}
     ProtoVM(std::string model, int core, int ram, int node)
-        : model(model), core(core), ram(ram), node(node) {}
+        : _model(model), _core(core), _ram(ram), _node(node) {}
     friend std::ostream &operator<<(std::ostream &os, const ProtoVM &m);
     friend std::istream &operator>>(std::istream &is, ProtoVM &m);
+    std::string model() const { return _model; }
+    int core() const { return _core; }
+    int ram() const { return _ram; }
+    int node() const { return _node; }
 };
 
 #endif
