@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <string>
+#include<unordered_map>
 #include "ProtoServer.h"
 #include "ProtoVM.h"
 #include "Request.h"
@@ -8,9 +10,13 @@ using std::cin;
 using std::cout;
 using std::endl;
 using std::vector;
+using std::unordered_map;
+using std::string;
 
 vector<ProtoServer> ServerType; //可以购买的服务器型号
 vector<ProtoVM> VMType;			//支持部署的虚拟机型号
+unordered_map<string,ProtoVM>	HashmodelVM;		//每个型号对应一个虚拟机
+unordered_map<int,ProtoVM>	HashidVM;				//每个id对应一个虚拟机
 vector<vector<Request>> requests;
 
 int main()
@@ -29,6 +35,12 @@ int main()
 	VMType = *(new vector<ProtoVM>(M));
 	for (int i = 0; i < M; i++)
 		cin >> VMType[i];
+
+	//转化成哈希map
+	for (int i = 0; i < M; i++)
+	{
+		 HashmodelVM.insert({VMType[i].model(),VMType[i]});
+	}
 	cin >> T;
 	cin.get();
 	requests = *(new vector<vector<Request>>(T));
@@ -38,10 +50,14 @@ int main()
 		cin >> R[i];
 		cin.get();
 		requests[i] = *(new vector<Request>(R[i]));
-		for (int j = 0; j < R[i]; j++)
+		for (int j = 0; j < R[i]; j++){
 			cin >> requests[i][j];
+			string op=requests[i][j].optype();
+			if(op=="add"){
+				HashidVM.insert({requests[i][j].id(),HashmodelVM[requests[i][j].model()]});
+			}
+		}	
 	}
-
 	// TODO:process
 	ProtoServer &maxServer = ServerType[0];
 	for (int i = 1; i < N; i++)
@@ -54,6 +70,7 @@ int main()
 			cin >> requests[i][j];
 	}
 	// TODO:write standard output
+	
 	// TODO:fflush(stdout);
 	return 0;
 }
