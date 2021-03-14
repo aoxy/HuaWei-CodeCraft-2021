@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include<unordered_map>
+#include <unordered_map>
 #include "ProtoServer.h"
 #include "ProtoVM.h"
 #include "Request.h"
@@ -9,14 +9,14 @@
 using std::cin;
 using std::cout;
 using std::endl;
-using std::vector;
-using std::unordered_map;
 using std::string;
+using std::unordered_map;
+using std::vector;
 
-vector<ProtoServer> ServerType; //可以购买的服务器型号
-vector<ProtoVM> VMType;			//支持部署的虚拟机型号
-unordered_map<string,ProtoVM>	HashmodelVM;		//每个型号对应一个虚拟机
-unordered_map<int,ProtoVM>	HashidVM;				//每个id对应一个虚拟机
+vector<ProtoServer> ServerType;				//可以购买的服务器型号
+vector<ProtoVM> VMType;						//支持部署的虚拟机型号
+unordered_map<string, ProtoVM> HashmodelVM; //每个型号对应一个虚拟机
+unordered_map<int, ProtoVM> HashidVM;		//每个id对应一个虚拟机
 vector<vector<Request>> requests;
 
 int main()
@@ -39,7 +39,7 @@ int main()
 	//转化成哈希map
 	for (int i = 0; i < M; i++)
 	{
-		 HashmodelVM.insert({VMType[i].model(),VMType[i]});
+		HashmodelVM.insert({VMType[i].model(), VMType[i]});
 	}
 	cin >> T;
 	cin.get();
@@ -50,27 +50,61 @@ int main()
 		cin >> R[i];
 		cin.get();
 		requests[i] = *(new vector<Request>(R[i]));
-		for (int j = 0; j < R[i]; j++){
+		for (int j = 0; j < R[i]; j++)
+		{
 			cin >> requests[i][j];
-			string op=requests[i][j].optype();
-			if(op=="add"){
-				HashidVM.insert({requests[i][j].id(),HashmodelVM[requests[i][j].model()]});
+			string op = requests[i][j].optype();
+			if (op == "add")
+			{
+				HashidVM.insert({requests[i][j].id(), HashmodelVM[requests[i][j].model()]});
 			}
-		}	
+		}
 	}
-	// TODO:process
+
+	// TODO:process 现在是为每一个虚拟机单独购买一台最大的服务器
 	ProtoServer &maxServer = ServerType[0];
 	for (int i = 1; i < N; i++)
 		if (ServerType[i].core() > maxServer.core() && ServerType[i].ram() > maxServer.ram())
 			maxServer = ServerType[i];
-	
+	vector<int> addCount(T);
 	for (int i = 0; i < T; i++)
 	{
+		addCount[i] = 0;
 		for (int j = 0; j < R[i]; j++)
-			cin >> requests[i][j];
+		{
+			if (requests[i][j].optype() == "add")
+			{
+				addCount[i]++;
+			}
+		}
+	}
+	int serverId = 0;
+	for (int i = 0; i < T; i++)
+	{
+		cout << "(purchase, 1)" << endl;
+		cout << "(" << maxServer.model() << ", " << addCount[i] << ")" << endl;
+		cout << "(migration, 0)" << endl;
+		for (int j = 0; j < R[i]; j++)
+		{
+			if (requests[i][j].optype() == "add")
+			{
+
+				int k;
+				for (k = 0; k < M; k++)
+				{
+					if (VMType[k].model() == requests[i][j].model())
+						break;
+				}
+				if (VMType[k].node() == 0)
+					cout << "(" << serverId << ", A)" << endl;
+				else
+					cout << "(" << serverId << ")" << endl;
+				serverId++;
+			}
+		}
 	}
 	// TODO:write standard output
-	
+
 	// TODO:fflush(stdout);
 	return 0;
 }

@@ -20,13 +20,13 @@ private:
 
 public:
     Request() {}
-    Request(std::string _optype, std::string _model, int _id)
-        : _optype(_optype), _model(_model), _id(_id) {}
+    Request(std::string optype, std::string model, int id)
+        : _optype(optype), _model(model), _id(id) {}
     friend std::ostream &operator<<(std::ostream &os, const Request &r);
     friend std::istream &operator>>(std::istream &is, Request &r);
-    std::string optype(){return _optype; };
-    std::string model(){return _model;}
-    int id(){return _id; }
+    std::string optype() const { return _optype; }
+    std::string model() const { return _model; }
+    int id() const { return _id; }
 };
 
 #endif
