@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <unordered_map>
 
 /**
  * 描述一种类型的虚拟机，数据格式为：(型号,CPU核数, 内存大小, 是否双节点部署)。

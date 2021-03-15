@@ -14,9 +14,9 @@ build/
 CodeCraft-2021.zip
 
 # 数据样例
-# samplein.txt
-sampleout.txt
-# training-1.txt
-training-1out.txt
-# training-2.txt
-training-2out.txt
+*.txt
+!samplein.txt
+!sampleout.txt
+!training-1.txt
+!training-2.txt
+

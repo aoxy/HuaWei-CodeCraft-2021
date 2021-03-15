@@ -6,6 +6,7 @@
 #include "ProtoVM.h"
 #include "Request.h"
 #include "Util.h"
+#include "DataCenter.h"
 using std::cin;
 using std::cout;
 using std::endl;
@@ -13,11 +14,12 @@ using std::string;
 using std::unordered_map;
 using std::vector;
 
-vector<ProtoServer> ServerType;				//可以购买的服务器型号
-vector<ProtoVM> VMType;						//支持部署的虚拟机型号
-unordered_map<string, ProtoVM> HashmodelVM; //每个型号对应一个虚拟机
-unordered_map<int, ProtoVM> HashidVM;		//每个id对应一个虚拟机
+std::unordered_map<std::string, ProtoServer> ServerType; //可以购买的服务器型号
+std::unordered_map<std::string, ProtoVM> VMType;		 //支持部署的虚拟机型号
+unordered_map<string, ProtoVM> HashmodelVM;				 //每个型号对应一个虚拟机
+unordered_map<int, ProtoVM> HashidVM;					 //每个id对应一个虚拟机
 vector<vector<Request>> requests;
+DataCenter dc;
 
 int main()
 {
@@ -25,22 +27,28 @@ int main()
 	int N; //整数N(1≤N≤100)，表示可以采购的服务器类型数量
 	int M; //整数M(1≤M≤1000)，表示售卖的虚拟机类型数量
 	int T; //整数T(1≤T≤1000)，表示题目共会给出 T天的用户请求序列数据
+
 	cin >> N;
 	cin.get();
-	ServerType = *(new vector<ProtoServer>(N));
+	ProtoServer ps;
 	for (int i = 0; i < N; i++)
-		cin >> ServerType[i];
+	{
+		cin >> ps;
+		ServerType.insert({ps.model(), ps});
+	}
 	cin >> M;
 	cin.get();
-	VMType = *(new vector<ProtoVM>(M));
-	for (int i = 0; i < M; i++)
-		cin >> VMType[i];
-
-	//转化成哈希map
+	ProtoVM pvm;
 	for (int i = 0; i < M; i++)
 	{
-		HashmodelVM.insert({VMType[i].model(), VMType[i]});
+		cin >> pvm;
+		VMType.insert({pvm.model(), pvm});
 	}
+	// //转化成哈希map
+	// for (int i = 0; i < M; i++)
+	// {
+	// 	HashmodelVM.insert({VMType[i].model(), VMType[i]});
+	// }
 	cin >> T;
 	cin.get();
 	requests = *(new vector<vector<Request>>(T));
@@ -62,10 +70,10 @@ int main()
 	}
 
 	// TODO:process 现在是为每一个虚拟机单独购买一台最大的服务器
-	ProtoServer &maxServer = ServerType[0];
-	for (int i = 1; i < N; i++)
-		if (ServerType[i].core() > maxServer.core() && ServerType[i].ram() > maxServer.ram())
-			maxServer = ServerType[i];
+	ProtoServer &maxServer = ServerType.begin()->second;
+	for (auto i = ServerType.begin()++; i != ServerType.end(); i++)
+		if (i->second.core() > maxServer.core() && i->second.ram() > maxServer.ram())
+			maxServer = i->second;
 	vector<int> addCount(T);
 	for (int i = 0; i < T; i++)
 	{
@@ -88,14 +96,8 @@ int main()
 		{
 			if (requests[i][j].optype() == "add")
 			{
-
-				int k;
-				for (k = 0; k < M; k++)
-				{
-					if (VMType[k].model() == requests[i][j].model())
-						break;
-				}
-				if (VMType[k].node() == 0)
+				ProtoVM pvm = VMType.find(requests[i][j].model())->second;
+				if (pvm.node() == 0)
 					cout << "(" << serverId << ", A)" << endl;
 				else
 					cout << "(" << serverId << ")" << endl;

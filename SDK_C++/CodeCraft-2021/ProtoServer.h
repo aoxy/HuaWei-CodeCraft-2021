@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <unordered_map>
 
 /**
  * 描述一种类型的服务器，数据格式为：(型号,CPU核数, 内存大小, 硬件成本, 每日能耗成本)。
