@@ -16,17 +16,17 @@ class Request
 private:
     std::string _optype;
     std::string _model;
-    int _id;
+    int _vid;
 
 public:
     Request() {}
-    Request(std::string optype, std::string model, int id)
-        : _optype(optype), _model(model), _id(id) {}
+    Request(std::string optype, std::string model, int vid)
+        : _optype(optype), _model(model), _vid(vid) {}
     friend std::ostream &operator<<(std::ostream &os, const Request &r);
     friend std::istream &operator>>(std::istream &is, Request &r);
     std::string optype() const { return _optype; }
     std::string model() const { return _model; }
-    int id() const { return _id; }
+    int vid() const { return _vid; }
 };
 
 #endif

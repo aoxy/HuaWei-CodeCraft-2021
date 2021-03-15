@@ -6,7 +6,7 @@ std::ostream &operator<<(std::ostream &os, const Request &r)
     os << "[Request](" << std::endl;
     os << "\t" << r._optype << std::endl;
     os << "\t" << r._model << std::endl;
-    os << "\t" << r._id << std::endl;
+    os << "\t" << r._vid << std::endl;
     os << ")" << std::endl;
     return os;
 }
@@ -19,11 +19,11 @@ std::istream &operator>>(std::istream &is, Request &r)
     in >> r._optype;
     if (r._optype == "add")
     {
-        in >> r._model >> r._id;
+        in >> r._model >> r._vid;
     }
     else
     {
-        in >> r._id;
+        in >> r._vid;
     }
     return is;
 }

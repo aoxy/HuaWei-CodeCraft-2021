@@ -1,7 +1,7 @@
 #include "Server.h"
 #include "VM.h"
 
-int Server::add(ProtoVM &pvm, int vid)
+int Server::deploy(ProtoVM &pvm, int vid)
 {
     if (pvm.node() == 0)
     {
@@ -58,4 +58,27 @@ int Server::add(ProtoVM &pvm, int vid)
             return -1;
     }
     return -1;
+}
+
+void Server::del(int vid)
+{
+    VM vm = vms.find(vid)->second;
+    ProtoVM pvm = vm.pvm;
+    if (vm.node == 'A')
+    {
+        acore += pvm.core();
+        aram += pvm.ram();
+    }
+    else if (vm.node == 'B')
+    {
+        bcore += pvm.core();
+        bram += pvm.ram();
+    }
+    else
+    {
+        acore += pvm.core() >> 1;
+        aram += pvm.ram() >> 1;
+        bcore += pvm.core() >> 1;
+        bram += pvm.ram() >> 1;
+    }
 }
