@@ -96,7 +96,6 @@ int main()
 		{
 			if (requests[i][j].optype() == "add")
 			{
-
 				ProtoVM pvm = VMType.find(requests[i][j].model())->second;
 				std::pair<int, char> res = dc.add(pvm, requests[i][j].vid());
 				if (res.second != 'D')

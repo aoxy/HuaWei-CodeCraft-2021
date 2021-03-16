@@ -2,7 +2,9 @@
 
 std::pair<int, char> DataCenter::deploy(ProtoVM &pvm, int vid)
 {
-    Server s(servers.top());
+    if (servers.empty())
+        return std::pair<int, char>(-1, 'X');
+    Server s = servers.top();
     switch (s.deploy(pvm, vid))
     {
     case 0:

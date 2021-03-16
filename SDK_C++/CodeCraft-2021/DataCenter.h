@@ -29,8 +29,8 @@ public:
         servers.push(s);
     }
 
-    std::pair<int,char> deploy(ProtoVM &pvm, int vid);
-    std::pair<int,char> add(ProtoVM &pvm, int vid);
+    std::pair<int, char> deploy(ProtoVM &pvm, int vid);
+    std::pair<int, char> add(ProtoVM &pvm, int vid);
     void del(int vid);
 };
 

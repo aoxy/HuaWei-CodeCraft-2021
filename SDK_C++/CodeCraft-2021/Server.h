@@ -11,7 +11,7 @@
 class Server
 {
 private:
-    ProtoServer ps;
+    ProtoServer &ps;
     int acore; //A节点可用CPU数量
     int aram;  //A节点可用内存数量
     int bcore; //B节点可用CPU数量
@@ -20,19 +20,21 @@ private:
     std::unordered_map<int, VM> vms; //部署在该台服务器上的虚拟机
 
 public:
-    Server(ProtoServer ps, int sid) : ps(ps), _sid(sid)
+    Server(ProtoServer &ps, int sid) : ps(ps), _sid(sid)
     {
         acore = bcore = ps.core() >> 1;
         aram = bram = ps.ram() >> 1;
     }
-    Server(const Server &that)
+    Server &operator=(const Server &that)
     {
         ps = that.ps;
         acore = that.acore;
         bcore = that.bcore;
         aram = that.aram;
         bram = that.bram;
+        _sid = that._sid;
         vms = that.vms;
+        return *this;
     }
     bool operator<(const Server &that) const
     {
@@ -40,7 +42,7 @@ public:
     }
     bool AgtB() const //A大于B
     {
-        return (MAGIC_FACTOR * acore + aram) > (MAGIC_FACTOR * bcore + bram); //剩余资源多的排前面
+        return (MAGIC_FACTOR * acore + aram) >= (MAGIC_FACTOR * bcore + bram); //剩余资源多的排前面
     }
     int sid() { return _sid; }
     /**
