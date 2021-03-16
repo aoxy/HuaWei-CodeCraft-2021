@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <queue>
+#include <set>
 #include <unordered_map>
 #include "ProtoServer.h"
 #include "ProtoVM.h"
@@ -16,7 +16,7 @@
 class DataCenter
 {
 private:
-    std::priority_queue<Server> servers; //数据中心购买了的所有服务器
+    std::set<Server> servers; //数据中心购买了的所有服务器
     std::unordered_map<int, VM> vms;     //数据中心部署了的所有虚拟机
     int _scount;
     ProtoServer &maxServer;
@@ -26,12 +26,14 @@ public:
     void purchase(ProtoServer &ps)
     {
         Server s(ps, _scount++);
-        servers.push(s);
+        servers.insert(s);
     }
     int scount() { return _scount; }
     std::pair<int, char> deploy(ProtoVM &pvm, int vid);
     std::pair<std::pair<int, char>, std::string> add(ProtoVM &pvm, int vid);
     void del(int vid);
+    void update(Server &n, std::set<Server>::iterator o);
+    void print();
 };
 
 #endif

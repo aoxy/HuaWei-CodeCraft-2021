@@ -13,14 +13,14 @@ int Server::deploy(ProtoVM &pvm, int vid)
             {
                 acore -= ncore;
                 aram -= nram;
-                vms.insert({vid, VM(vid, *this, pvm, 'A')});
+                svms.insert({vid, VM(vid, *this, pvm, 'A')});
                 return 0;
             }
             else
             {
                 bcore -= ncore;
                 bram -= nram;
-                vms.insert({vid, VM(vid, *this, pvm, 'B')});
+                svms.insert({vid, VM(vid, *this, pvm, 'B')});
                 return 1;
             }
         }
@@ -28,14 +28,14 @@ int Server::deploy(ProtoVM &pvm, int vid)
         { //只能部署在A上
             acore -= ncore;
             aram -= nram;
-            vms.insert({vid, VM(vid, *this, pvm, 'A')});
+            svms.insert({vid, VM(vid, *this, pvm, 'A')});
             return 0;
         }
         else if (ncore <= bcore && nram <= bram)
         { //只能部署在B上
             bcore -= ncore;
             bram -= nram;
-            vms.insert({vid, VM(vid, *this, pvm, 'B')});
+            svms.insert({vid, VM(vid, *this, pvm, 'B')});
             return 1;
         }
         else
@@ -51,7 +51,7 @@ int Server::deploy(ProtoVM &pvm, int vid)
             bcore -= halfcore;
             aram -= halfram;
             bram -= halfram;
-            vms.insert({vid, VM(vid, *this, pvm, 'D')});
+            svms.insert({vid, VM(vid, *this, pvm, 'D')});
             return 2;
         }
         else
@@ -60,10 +60,10 @@ int Server::deploy(ProtoVM &pvm, int vid)
     return -1;
 }
 
-void Server::del(int vid)
+void Server::del(VM &vm)
 {
-    VM vm = vms.find(vid)->second;
     ProtoVM pvm = vm.pvm;
+    svms.erase(vm.vid);
     if (vm.node == 'A')
     {
         acore += pvm.core();

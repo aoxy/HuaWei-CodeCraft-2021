@@ -27,7 +27,7 @@ int main()
 	int N; //整数N(1≤N≤100)，表示可以采购的服务器类型数量
 	int M; //整数M(1≤M≤1000)，表示售卖的虚拟机类型数量
 	int T; //整数T(1≤T≤1000)，表示题目共会给出 T天的用户请求序列数据
-	std::ios::sync_with_stdio(false);
+	// std::ios::sync_with_stdio(false);
 	cin >> N;
 	cin.get();
 	ProtoServer ps;
@@ -109,6 +109,13 @@ int main()
 				if (res.second != "")
 					sday[res.second]++;
 			}
+			else
+			{
+				//FIXME:此处有奇怪的bug，敖debug不出来，详情看`sh test.sh`的输出
+				cout << "vid" << requests[i][j].vid() << endl;
+				dc.del(requests[i][j].vid());
+			}
+			dc.print();
 		}
 		cout << "(purchase, " << sday.size() << ")" << endl;
 		for (auto it = sday.begin(); it != sday.end(); it++)
