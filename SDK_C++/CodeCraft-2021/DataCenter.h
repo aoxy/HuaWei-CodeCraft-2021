@@ -18,19 +18,19 @@ class DataCenter
 private:
     std::priority_queue<Server> servers; //数据中心购买了的所有服务器
     std::unordered_map<int, VM> vms;     //数据中心部署了的所有虚拟机
-    int scount;
+    int _scount;
     ProtoServer &maxServer;
 
 public:
-    DataCenter(ProtoServer &maxServer) : scount(0), maxServer(maxServer) {}
+    DataCenter(ProtoServer &maxServer) : _scount(0), maxServer(maxServer) {}
     void purchase(ProtoServer &ps)
     {
-        Server s(ps, scount++);
+        Server s(ps, _scount++);
         servers.push(s);
     }
-
+    int scount() { return _scount; }
     std::pair<int, char> deploy(ProtoVM &pvm, int vid);
-    std::pair<int, char> add(ProtoVM &pvm, int vid);
+    std::pair<std::pair<int, char>, std::string> add(ProtoVM &pvm, int vid);
     void del(int vid);
 };
 

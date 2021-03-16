@@ -10,6 +10,7 @@
 using std::cin;
 using std::cout;
 using std::endl;
+using std::pair;
 using std::string;
 using std::unordered_map;
 using std::vector;
@@ -74,34 +75,51 @@ int main()
 		if (i->second.core() > maxServer.core() && i->second.ram() > maxServer.ram())
 			maxServer = i->second;
 	DataCenter dc(maxServer);
-	vector<int> addCount(T);
+	// vector<int> addCount(T);
+	// int maxAdd = 0;
+	// int sumAdd = 0;
+	// for (int i = 0; i < T; i++)
+	// {
+	// 	addCount[i] = 0;
+	// 	for (int j = 0; j < R[i]; j++)
+	// 	{
+	// 		if (requests[i][j].optype() == "add")
+	// 		{
+	// 			addCount[i]++;
+	// 			sumAdd++;
+	// 		}
+	// 	}
+	// 	maxAdd = maxAdd > addCount[i] ? maxAdd : addCount[i];
+	// }
+	// cout << "analuze: " << sumAdd << "||" << T << endl;//每天100次
+	unordered_map<string, int> sday(T);	  //每天购买的服务器
+	vector<pair<int, char>> aday(T >> 2); //每天add的虚拟机
 	for (int i = 0; i < T; i++)
 	{
-		addCount[i] = 0;
+		sday.clear();
+		aday.clear();
 		for (int j = 0; j < R[i]; j++)
 		{
-			if (requests[i][j].optype() == "add")
-			{
-				addCount[i]++;
-			}
-		}
-	}
-	for (int i = 0; i < T; i++)
-	{
-		cout << "(purchase, 1)" << endl;
-		cout << "(" << maxServer.model() << ", " << addCount[i] << ")" << endl;
-		cout << "(migration, 0)" << endl;
-		for (int j = 0; j < R[i]; j++)
-		{
+
 			if (requests[i][j].optype() == "add")
 			{
 				ProtoVM pvm = VMType.find(requests[i][j].model())->second;
-				std::pair<int, char> res = dc.add(pvm, requests[i][j].vid());
-				if (res.second != 'D')
-					cout << "(" << res.first << ", " << res.second << ")" << endl;
-				else
-					cout << "(" << res.first << ")" << endl;
+				pair<pair<int, char>, string> res = dc.add(pvm, requests[i][j].vid());
+				aday.push_back(res.first);
+				if (res.second != "")
+					sday[res.second]++;
 			}
+		}
+		cout << "(purchase, " << sday.size() << ")" << endl;
+		for (auto it = sday.begin(); it != sday.end(); it++)
+			cout << "(" << it->first << ", " << it->second << ")" << endl;
+		cout << "(migration, 0)" << endl;
+		for (auto it = aday.begin(); it != aday.end(); it++)
+		{
+			if (it->second != 'D')
+				cout << "(" << it->first << ", " << it->second << ")" << endl;
+			else
+				cout << "(" << it->first << ")" << endl;
 		}
 	}
 	// TODO:write standard output

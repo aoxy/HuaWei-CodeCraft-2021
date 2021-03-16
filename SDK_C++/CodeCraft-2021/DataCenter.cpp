@@ -36,15 +36,16 @@ std::pair<int, char> DataCenter::deploy(ProtoVM &pvm, int vid)
     }
 }
 
-std::pair<int, char> DataCenter::add(ProtoVM &pvm, int vid)
+std::pair<std::pair<int, char>, std::string> DataCenter::add(ProtoVM &pvm, int vid)
 {
     std::pair<int, char> res = deploy(pvm, vid);
     if (res.second == 'X')
     {
         purchase(maxServer);
         res = deploy(pvm, vid);
+        return std::pair<std::pair<int, char>, std::string>(res, maxServer.model());
     }
-    return res;
+    return std::pair<std::pair<int, char>, std::string>(res, "");
 }
 
 void DataCenter::del(int vid)
