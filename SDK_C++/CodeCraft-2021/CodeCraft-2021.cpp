@@ -90,7 +90,6 @@ int main()
 	{
 		cout << "(purchase, 1)" << endl;
 		cout << "(" << maxServer.model() << ", " << addCount[i] << ")" << endl;
-		//FIXME:此处有段错误bug
 		cout << "(migration, 0)" << endl;
 		for (int j = 0; j < R[i]; j++)
 		{
