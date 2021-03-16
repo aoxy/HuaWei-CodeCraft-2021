@@ -21,6 +21,16 @@ unordered_map<string, ProtoVM> HashmodelVM;				 //每个型号对应一个虚拟
 unordered_map<int, ProtoVM> HashidVM;					 //每个id对应一个虚拟机
 vector<vector<Request>> requests;
 
+template <typename T1, typename T2, typename T3>
+struct three
+{
+	T1 first;
+	T2 second;
+	T3 third;
+	three(T1 t1, T2 t2, T3 t3) : first(t1), second(t2), third(t3) {}
+	three() {}
+};
+
 int main()
 {
 	// TODO:read standard input
@@ -92,8 +102,8 @@ int main()
 	// 	maxAdd = maxAdd > addCount[i] ? maxAdd : addCount[i];
 	// }
 	// cout << "analuze: " << sumAdd << "||" << T << endl;//每天100次
-	unordered_map<string, int> sday(T);	  //每天购买的服务器
-	vector<pair<int, char>> aday(T >> 2); //每天add的虚拟机
+	unordered_map<string, int> sday(T);			//每天购买的服务器
+	vector<three<int, char, int>> aday(T >> 2); //每天add的虚拟机
 	for (int i = 0; i < T; i++)
 	{
 		sday.clear();
@@ -105,17 +115,19 @@ int main()
 			{
 				ProtoVM pvm = VMType.find(requests[i][j].model())->second;
 				pair<pair<int, char>, string> res = dc.add(pvm, requests[i][j].vid());
-				aday.push_back(res.first);
+				aday.push_back(three<int, char, int>(res.first.first, res.first.second, requests[i][j].vid()));
 				if (res.second != "")
 					sday[res.second]++;
 			}
 			else
 			{
 				//FIXME:此处有奇怪的bug，敖debug不出来，详情看`sh train.sh`的输出
+				// cout << i << "{}" << j << endl;
 				dc.del(requests[i][j].vid());
 			}
-				}
-		// dc.print();
+		}
+		// dc.print2();
+		// cout<<"size"<<dc.s
 		cout << "(purchase, " << sday.size() << ")" << endl;
 		for (auto it = sday.begin(); it != sday.end(); it++)
 			cout << "(" << it->first << ", " << it->second << ")" << endl;
@@ -123,11 +135,13 @@ int main()
 		for (auto it = aday.begin(); it != aday.end(); it++)
 		{
 			if (it->second != 'D')
-				cout << "(" << it->first << ", " << it->second << ")" << endl;
+				cout << "(" << it->first << ", " << it->second << ", " << it->third << ")" << endl;
 			else
-				cout << "(" << it->first << ")" << endl;
+				cout << "(" << it->first << ", " << it->third << ")" << endl;
 		}
 	}
+	// cout << "(============================)" << endl;
+	// dc.print2();
 	// TODO:write standard output
 
 	// TODO:fflush(stdout);

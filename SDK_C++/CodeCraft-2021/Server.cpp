@@ -60,7 +60,7 @@ int Server::deploy(ProtoVM pvm, int vid)
     return -1;
 }
 
-void Server::del(VM &vm)
+void Server::del(VM vm)
 {
     ProtoVM pvm = vm.pvm;
     svms.erase(vm.vid);
