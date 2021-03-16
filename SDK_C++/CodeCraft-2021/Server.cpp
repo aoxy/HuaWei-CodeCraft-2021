@@ -33,10 +33,10 @@ int Server::deploy(ProtoVM &pvm, int vid)
         }
         else if (ncore <= bcore && nram <= bram)
         { //只能部署在B上
-            acore -= ncore;
-            aram -= nram;
+            bcore -= ncore;
+            bram -= nram;
             vms.insert({vid, VM(vid, *this, pvm, 'B')});
-            return 0;
+            return 1;
         }
         else
             return -1;
@@ -45,12 +45,12 @@ int Server::deploy(ProtoVM &pvm, int vid)
     {
         int halfcore = pvm.core() >> 1;
         int halfram = pvm.ram() >> 1;
-        if (halfcore <= this->acore && halfcore <= this->bcore && halfram <= this->bram && halfram <= this->bram)
+        if (halfcore <= acore && halfram <= aram && halfcore <= bcore && halfram <= bram)
         {
-            this->acore -= halfcore;
-            this->bcore -= halfcore;
-            this->aram -= halfram;
-            this->bram -= halfram;
+            acore -= halfcore;
+            bcore -= halfcore;
+            aram -= halfram;
+            bram -= halfram;
             vms.insert({vid, VM(vid, *this, pvm, 'D')});
             return 2;
         }

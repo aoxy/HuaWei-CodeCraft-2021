@@ -64,3 +64,45 @@ print("总虚拟机平均值", np.mean(vmnum1+vmnum2, axis=0))
 
 print("总服务器最大值", np.max(nums1+nums2, axis=0))
 print("总虚拟机最大值", np.max(vmnum1+vmnum2, axis=0))
+
+
+a = []
+b = []
+c = []
+d = []
+with open("an2.txt") as data2:
+    N = int(data2.readline())
+    for n in range(N):
+        ps = data2.readline()
+        server = ps.strip('(\n)').split(',')
+        model = server[0]
+        node = server[1]
+        core = int(server[2])
+        ram = int(server[3])
+        if node == 'A':
+            a.append([core, ram, 0, 0])
+        elif node == 'B':
+            a.append([0, 0, core, ram])
+        else:
+            a.append([core >> 1, ram >> 1, core >> 1, ram >> 1])
+    N = int(data2.readline())
+    for n in range(N):
+        ps = data2.readline()
+        server = ps.strip('(\n)').split(',')
+        model = server[0]
+        node = server[1]
+        core = int(server[2])
+        ram = int(server[3])
+        if node == 'A':
+            b.append([core, ram, 0, 0])
+        elif node == 'B':
+            b.append([0, 0, core, ram])
+        else:
+            b.append([core >> 1, ram >> 1, core >> 1, ram >> 1])
+
+res = np.sum(a, axis=0)
+print("0服务器", res)
+print("0服务器", res[0]+res[2], res[1]+res[3])
+res = np.sum(b, axis=0)
+print("0服务器", res)
+print("0服务器", res[0]+res[2], res[1]+res[3])
