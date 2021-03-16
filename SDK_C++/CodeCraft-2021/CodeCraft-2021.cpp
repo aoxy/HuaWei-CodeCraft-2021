@@ -111,12 +111,11 @@ int main()
 			}
 			else
 			{
-				//FIXME:此处有奇怪的bug，敖debug不出来，详情看`sh test.sh`的输出
-				cout << "vid" << requests[i][j].vid() << endl;
+				//FIXME:此处有奇怪的bug，敖debug不出来，详情看`sh train.sh`的输出
 				dc.del(requests[i][j].vid());
 			}
-			dc.print();
-		}
+				}
+		// dc.print();
 		cout << "(purchase, " << sday.size() << ")" << endl;
 		for (auto it = sday.begin(); it != sday.end(); it++)
 			cout << "(" << it->first << ", " << it->second << ")" << endl;
