@@ -70,10 +70,40 @@ int main()
 	}
 
 	// TODO:process 现在是为每一个虚拟机单独购买一台最大的服务器，可以删除虚拟机
-	ProtoServer &maxServer = ServerType.begin()->second;
-	for (auto i = ServerType.begin()++; i != ServerType.end(); i++)
-		if (i->second.core() > maxServer.core() && i->second.ram() > maxServer.ram())
+	/*first 
+	ProtoServer maxServer = ServerType.begin()->second;
+	for (auto i = ServerType.begin(); i != ServerType.end(); i++)
+		if (maxServer < i->second)
 			maxServer = i->second;
+			*/
+
+	ProtoServer maxServer = ServerType.begin()->second;
+	// for (auto i = ServerType.begin(); i != ServerType.end(); i++)
+	// 	if (i->second.core() > maxServer.core() && i->second.ram() > maxServer.ram())
+	// 		maxServer = i->second;
+
+	// int maxcore = 0.5* maxServer.core();
+	// int maxram = 0.5* maxServer.ram();
+	// ProtoServer maxCostServer = ServerType.begin()->second;
+	// double maxpricequality = 0;
+	// for (auto i = ServerType.begin(); i != ServerType.end(); i++)
+	// {
+	// 	double totalcost = i->second.price() + T * i->second.cost() / 2;
+	// 	double quality = MAGIC_FACTOR * i->second.core() + i->second.ram();
+
+	// 	double pricequality =  totalcost/quality ;
+	// 	// cout<<totalcost<<", "<<quality<<", "<<pricequality<<", "<<i->second.model()<<endl;
+	// 	if (pricequality > maxpricequality && i->second.core() > maxcore && i->second.ram() > maxram)
+	// 		maxCostServer = i->second;
+	// }
+	// cout << "Here" << maxCostServer.core() << "," << maxCostServer.ram() << endl;
+	// cout << "Before" << maxServer.core() << "," << maxServer.ram() << endl;
+	if (N < 90)
+	{
+		maxServer = ServerType.find("host6BW3B")->second;
+	}
+	else
+		maxServer = ServerType.find("hostLF6A4")->second;
 	DataCenter dc(maxServer);
 
 	unordered_map<string, int> sday(T);	  //每天购买的服务器
@@ -110,6 +140,6 @@ int main()
 				cout << "(" << it->first << ")" << endl;
 		}
 	}
-
+	dc.printusage("usage" + std::to_string(N) + ".csv");
 	return 0;
 }

@@ -4,6 +4,7 @@ allServer1 = []
 nums1 = []
 allVM1 = []
 vmnum1 = []
+singlevm1 = []
 with open("training-1.txt") as data1:
     N = int(data1.readline())
     for n in range(N):
@@ -23,6 +24,8 @@ with open("training-1.txt") as data1:
         core = int(vm[1])
         ram = int(vm[2])
         node = int(vm[3])
+        if node == 0:
+            singlevm1.append([core, ram])
         allVM1.append([model, core, ram, node])
         vmnum1.append([core, ram, node])
 
@@ -33,6 +36,7 @@ allServer2 = []
 nums2 = []
 allVM2 = []
 vmnum2 = []
+singlevm2 = []
 with open("training-2.txt") as data2:
     N = int(data2.readline())
     for n in range(N):
@@ -52,18 +56,22 @@ with open("training-2.txt") as data2:
         core = int(vm[1])
         ram = int(vm[2])
         node = int(vm[3])
+        if node == 0:
+            singlevm2.append([core, ram])
         allVM2.append([model, core, ram, node])
         vmnum2.append([core, ram, node])
 
 
 print("服务器平均值2", np.mean(nums2, axis=0))
 print("虚拟机平均值2", np.mean(vmnum2, axis=0))
-print("总服务器平均值", np.mean(nums1+nums2, axis=0))
-print("总虚拟机平均值", np.mean(vmnum1+vmnum2, axis=0))
+print("总服务器平均值(core,ram,price,cost)", np.mean(nums1+nums2, axis=0))
+print("总虚拟机平均值(core,ram,node)", np.mean(vmnum1+vmnum2, axis=0))
 
 
-print("总服务器最大值", np.max(nums1+nums2, axis=0))
-print("总虚拟机最大值", np.max(vmnum1+vmnum2, axis=0))
+print("总服务器最大值(core,ram,price,cost)", np.max(nums1+nums2, axis=0))
+print("总服务器最小值(core,ram,price,cost)", np.min(nums1+nums2, axis=0))
+print("总虚拟机最大值(core,ram,node)", np.max(vmnum1+vmnum2, axis=0))
+print("单节点虚拟机最大值(core,ram)", np.max(singlevm1+singlevm2, axis=0))
 
 
 a = []

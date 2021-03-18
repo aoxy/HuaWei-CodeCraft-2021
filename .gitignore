@@ -11,7 +11,7 @@ bin/
 build/
 
 # 打包的zip压缩包
-CodeCraft-2021.zip
+CodeCraft-2021*.zip
 
 # 数据样例
 *.txt
@@ -22,3 +22,6 @@ CodeCraft-2021.zip
 
 # 使用调试时产生的文件
 SDK_C++/CodeCraft-2021/CodeCraft-2021
+
+# 统计表格
+*.csv

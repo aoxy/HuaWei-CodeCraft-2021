@@ -1,6 +1,8 @@
 #ifndef PROTO_SERVER_H_
 #define PROTO_SERVER_H_
 
+#define MAGIC_FACTOR 1.2
+
 #include <iostream>
 #include <string>
 #include <unordered_map>
@@ -29,6 +31,14 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const ProtoServer &s);
     friend std::istream &operator>>(std::istream &is, ProtoServer &s);
     std::string model() const { return _model; }
+    bool operator<(const ProtoServer &that) const
+    {
+        return (MAGIC_FACTOR * _core + _ram) < (MAGIC_FACTOR * that._core + that._ram);
+    }
+    bool greatthan(const ProtoServer &that) const
+    {
+        return (MAGIC_FACTOR * _core + _ram) > 0.7 * (MAGIC_FACTOR * that._core + that._ram);
+    }
     int core() const { return _core; }
     int ram() const { return _ram; }
     int price() const { return _price; }

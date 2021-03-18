@@ -1,8 +1,6 @@
 #ifndef SERVER_H_
 #define SERVER_H_
 
-#define MAGIC_FACTOR 1.2
-
 #include <unordered_map>
 #include <set>
 #include "ProtoServer.h"
@@ -47,14 +45,14 @@ public:
         sid = it->sid;
         svms = it->svms;
     }
-    bool operator<(const Server &that) const
-    {
-        return (MAGIC_FACTOR * (acore + bcore) + aram + bram) > (MAGIC_FACTOR * (that.acore + that.bcore) + that.aram + that.bram); //剩余资源多的排前面
-    }
-    bool operator==(const Server &that) const
-    {
-        return sid == that.sid;
-    }
+    // bool operator<(const Server &that) const
+    // {
+    //     return (MAGIC_FACTOR * (acore + bcore) + aram + bram) > (MAGIC_FACTOR * (that.acore + that.bcore) + that.aram + that.bram); //剩余资源多的排前面
+    // }
+    // bool operator==(const Server &that) const
+    // {
+    //     return sid == that.sid;
+    // }
     bool AgtB() const //A大于B
     {
         return (MAGIC_FACTOR * acore + aram) >= (MAGIC_FACTOR * bcore + bram); //剩余资源多的排前面
