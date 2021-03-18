@@ -1,15 +1,12 @@
 #ifndef DATA_CENTER_H_
 #define DATA_CENTER_H_
 
-#define MAX(a, b) a > b ? a : b
-
-#define MIN(a, b) a < b ? a : b
-
 #include <iostream>
 #include <vector>
 #include <string>
 #include <set>
 #include <unordered_map>
+#include "Util.h"
 #include "ProtoServer.h"
 #include "ProtoVM.h"
 #include "DataCenter.h"
@@ -50,7 +47,7 @@ public:
     DataCenter(ProtoServer maxServer) : _scount(0), maxServer(maxServer) {}
     void purchase(ProtoServer ps)
     {
-        
+
         Server s(ps, _scount++);
         servers0.insert(s);
         servers1.insert(s);

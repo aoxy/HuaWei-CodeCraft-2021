@@ -57,6 +57,7 @@ public:
     {
         return (MAGIC_FACTOR * acore + aram) >= (MAGIC_FACTOR * bcore + bram); //剩余资源多的排前面
     }
+    double match(ProtoVM pvm) const;
     /**
      * @return (-1,部署失败),(0,单节点A部署成功)，(1,单节点B部署成功),(2,双节点部署成功)
      */

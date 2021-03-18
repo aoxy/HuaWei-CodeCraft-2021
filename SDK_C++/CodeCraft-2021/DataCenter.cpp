@@ -13,16 +13,23 @@ std::pair<int, char> DataCenter::deploy(ProtoVM pvm, int vid)
         //           << firsts->aram << ","
         //           << firsts->bcore << ","
         //           << firsts->bram << ")" << std::endl;
+        double bestmatch = 1e10;
+        int k = 0;
+        for (auto it = servers0.begin(); it != servers0.end() && k < 400; k++, it++)
+        {
+            if (it->match(pvm) < bestmatch)
+                firsts = it;
+        }
         Server s(firsts);
         int res = s.deploy(pvm, vid);
         if (res < 0)
         {
-            std::cout << "买服务器：(" << s.sid << ","
-                      << s.acore << ","
-                      << s.aram << ","
-                      << s.bcore << ","
-                      << s.bram << ")"
-                      << pvm.core() << "," << pvm.ram() << "," << pvm.node() << std::endl;
+            // std::cout << "买服务器：(" << s.sid << ","
+            //           << s.acore << ","
+            //           << s.aram << ","
+            //           << s.bcore << ","
+            //           << s.bram << ")"
+            //           << pvm.core() << "," << pvm.ram() << "," << pvm.node() << std::endl;
             return std::pair<int, char>(-1, 'X');
         }
         std::multiset<Server, ServerCmp1>::iterator it = servers1.begin();
@@ -58,6 +65,13 @@ std::pair<int, char> DataCenter::deploy(ProtoVM pvm, int vid)
         if (servers1.empty())
             return std::pair<int, char>(-1, 'X');
         auto firsts = servers1.begin();
+        double bestmatch = 1e10;
+        int k = 0;
+        for (auto it = servers1.begin(); it != servers1.end() && k < 400; k++, it++)
+        {
+            if (it->match(pvm) < bestmatch)
+                firsts = it;
+        }
         // std::cout << "(" << firsts->acore << ","
         //           << firsts->aram << ","
         //           << firsts->bcore << ","
@@ -66,12 +80,12 @@ std::pair<int, char> DataCenter::deploy(ProtoVM pvm, int vid)
         int res = s.deploy(pvm, vid);
         if (res < 0)
         {
-            std::cout << "买服务器：(" << s.sid << ","
-                      << s.acore << ","
-                      << s.aram << ","
-                      << s.bcore << ","
-                      << s.bram << ")"
-                      << pvm.core() << "," << pvm.ram() << "," << pvm.node() << std::endl;
+            // std::cout << "买服务器：(" << s.sid << ","
+            //           << s.acore << ","
+            //           << s.aram << ","
+            //           << s.bcore << ","
+            //           << s.bram << ")"
+            //           << pvm.core() << "," << pvm.ram() << "," << pvm.node() << std::endl;
             return std::pair<int, char>(-1, 'X');
         }
         std::multiset<Server, ServerCmp0>::iterator it = servers0.begin();
@@ -162,12 +176,26 @@ void DataCenter::printusage(std::string fname)
     {
         double core = s.ps.core();
         double ram = s.ps.ram();
+        double hcore = s.ps.core() >> 1;
+        double hram = s.ps.ram() >> 1;
         double f1 = 1 - (s.acore + s.bcore) / core;
         double f2 = 1 - (s.aram + s.bram) / ram;
         double f3 = 1 - s.acore * 2 / core;
         double f4 = 1 - s.aram * 2 / ram;
         double f5 = 1 - s.bcore * 2 / core;
         double f6 = 1 - s.bram * 2 / ram;
-        fout << s.sid << "," << f1 << "," << f2 << "," << f3 << "," << f4 << "," << f5 << "," << f6 << "," << core << "," << ram << "," << s.acore << "," << s.aram << "," << s.bcore << "," << s.bram << std::endl;
+        fout << s.sid << ","
+             << f1 << ","
+             << f2 << ","
+             << f3 << ","
+             << f4 << ","
+             << f5 << ","
+             << f6 << ","
+             << core << ","
+             << ram << ","
+             << hcore - s.acore << ","
+             << hram - s.aram << ","
+             << hcore - s.bcore << ","
+             << hram - s.bram << std::endl;
     }
 }

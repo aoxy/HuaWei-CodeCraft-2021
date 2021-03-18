@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <assert.h>
 #include "ProtoServer.h"
 #include "ProtoVM.h"
 #include "Request.h"
@@ -140,6 +141,10 @@ int main()
 				cout << "(" << it->first << ")" << endl;
 		}
 	}
-	dc.printusage("usage" + std::to_string(N) + ".csv");
+	// time_t t = time(0);
+	// char ch[64];
+	// strftime(ch, sizeof(ch), "%m%d%H%M%S", localtime(&t)); //年-月-日 时-分-秒
+	// string nowtime(ch, 6);
+	// dc.printusage("../csv/usage" + std::to_string(N) + "-" + nowtime + ".csv");
 	return 0;
 }
