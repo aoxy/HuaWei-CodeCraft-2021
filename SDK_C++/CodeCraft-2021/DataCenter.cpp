@@ -68,3 +68,13 @@ void DataCenter::del(int vid)
     servers.insert(s);
     vms.erase(vid);
 }
+
+int DataCenter::daylyCost()
+{
+    int sum = 0;
+    for(auto a : servers)
+    {
+        sum += a.ps.cost();
+    }
+    return(sum);
+}

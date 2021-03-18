@@ -35,6 +35,8 @@ public:
     void update(Server *n, std::multiset<Server>::iterator o);
     void print();
     void print2();
+
+    int daylyCost();
 };
 
 #endif

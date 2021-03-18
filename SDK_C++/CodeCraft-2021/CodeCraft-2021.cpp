@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <fstream>
 #include "ProtoServer.h"
 #include "ProtoVM.h"
 #include "Request.h"
@@ -41,6 +42,9 @@ int main()
 	cin >> N;
 	cin.get();
 	ProtoServer ps;
+
+	long cost = 0; //整数cost
+
 	for (int i = 0; i < N; i++)
 	{
 		cin >> ps;
@@ -69,46 +73,58 @@ int main()
 		}
 	}
 
-	// TODO:process 现在是为每一个虚拟机单独购买一台最大的服务器，可以删除虚拟机
-	ProtoServer &maxServer = ServerType.begin()->second;
-	for (auto i = ServerType.begin()++; i != ServerType.end(); i++)
-		if (i->second.core() > maxServer.core() && i->second.ram() > maxServer.ram())
-			maxServer = i->second;
-	DataCenter dc(maxServer);
-
-	unordered_map<string, int> sday(T);	  //每天购买的服务器
-	vector<pair<int, char>> aday(T >> 2); //每天add的虚拟机
-	for (int i = 0; i < T; i++)
+	for (auto a : ServerType)
 	{
-		sday.clear();
-		aday.clear();
-		for (int j = 0; j < R[i]; j++)
+		// TODO:process 现在是为每一个虚拟机单独购买一台最大的服务器，可以删除虚拟机
+		ProtoServer maxServer = a.second;
+		if (a.second.core() < 256  || a.second.ram() < 256)
+			continue;
+		DataCenter dc(maxServer);
+		cost = 0;
+		unordered_map<string, int> sday(T);	  //每天购买的服务器
+		vector<pair<int, char> > aday(T >> 2); //每天add的虚拟机
+		for (int i = 0; i < T; i++)
 		{
+			sday.clear();
+			aday.clear();
+			for (int j = 0; j < R[i]; j++)
+			{
 
-			if (requests[i][j].optype() == "add")
-			{
-				ProtoVM pvm = VMType.find(requests[i][j].model())->second;
-				pair<pair<int, char>, string> res = dc.add(pvm, requests[i][j].vid());
-				aday.push_back(res.first);
-				if (res.second != "")
-					sday[res.second]++;
+				if (requests[i][j].optype() == "add")
+				{
+					ProtoVM pvm = VMType.find(requests[i][j].model())->second;
+					pair<pair<int, char>, string> res = dc.add(pvm, requests[i][j].vid());
+					aday.push_back(res.first);
+					if (res.second != "")
+						sday[res.second]++;
+				}
+				else
+				{
+					dc.del(requests[i][j].vid());
+				}
 			}
-			else
+			//cout << "(purchase, " << sday.size() << ")" << endl;
+			for (auto it = sday.begin(); it != sday.end(); it++)
 			{
-				dc.del(requests[i][j].vid());
+				//cout << "(" << it->first << ", " << it->second << ")" << endl;
+				cost += ServerType.find(it->first)->second.price() * it->second;
 			}
+
+			//cout << "(migration, 0)" << endl;
+			for (auto it = aday.begin(); it != aday.end(); it++)
+			{
+				//if (it->second != 'D')
+					//cout << "(" << it->first << ", " << it->second << ")" << endl;
+				//else
+				//	cout << "(" << it->first << ")" << endl;
+			}
+			cost += dc.daylyCost();
 		}
-		cout << "(purchase, " << sday.size() << ")" << endl;
-		for (auto it = sday.begin(); it != sday.end(); it++)
-			cout << "(" << it->first << ", " << it->second << ")" << endl;
-		cout << "(migration, 0)" << endl;
-		for (auto it = aday.begin(); it != aday.end(); it++)
-		{
-			if (it->second != 'D')
-				cout << "(" << it->first << ", " << it->second << ")" << endl;
-			else
-				cout << "(" << it->first << ")" << endl;
-		}
+
+		std::ofstream fout;
+		fout.open("../cost.txt", std::ios_base::out);
+		fout << cost;
+		cout << cost << " @ : @ " << maxServer.model() << endl;
 	}
 
 	return 0;
