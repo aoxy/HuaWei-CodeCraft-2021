@@ -1,0 +1,10 @@
+__pycache__/
+henv/
+
+resource/0[0-9]_[0-9]*/
+
+0[0-9]_[0-9]*.html
+
+meta
+
+LICENSE

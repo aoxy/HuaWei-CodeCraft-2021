@@ -1,0 +1,9 @@
+{
+  "language": "c++",
+  "pythonInterpreter": "",
+  "executable": "./../SDK_C++/bin/CodeCraft-2021",
+  "sourceCode": "",
+  "javaPath": "",
+  "buildJARPath": "",
+  "ioData": ["../training-1.txt", "../training-2.txt"]
+}

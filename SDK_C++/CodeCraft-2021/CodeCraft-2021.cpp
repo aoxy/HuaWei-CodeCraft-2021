@@ -143,8 +143,9 @@ int main()
 	}
 	// time_t t = time(0);
 	// char ch[64];
-	// strftime(ch, sizeof(ch), "%m%d%H%M%S", localtime(&t)); //年-月-日 时-分-秒
-	// string nowtime(ch, 6);
+	// strftime(ch, sizeof(ch), "%m%d%H%M%S", localtime(&t));
+	// string nowtime(ch, 10);
+	// //要手动新建csv目录才能生成文件
 	// dc.printusage("../csv/usage" + std::to_string(N) + "-" + nowtime + ".csv");
 	return 0;
 }
